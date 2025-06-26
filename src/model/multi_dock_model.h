@@ -83,6 +83,7 @@ constexpr bool kDefaultShowClock = true;
 constexpr bool kDefaultShowTrash = true;
 constexpr bool kDefaultShowVolumeControl = true;
 constexpr int kDefaultVolumeScrollStep = 2;
+constexpr bool kDefaultShowMediaControls = true;
 constexpr PanelStyle kDefaultPanelStyle = PanelStyle::Glass3D_Floating;
 
 constexpr char kDefaultApplicationMenuName[] = "Applications";
@@ -596,6 +597,15 @@ class MultiDockModel : public QObject {
     setAppearanceProperty(kVolumeControlCategory, kVolumeScrollStep, value);
   }
 
+  bool showMediaControls(int dockId) const {
+    return dockProperty(dockId, kGeneralCategory, kShowMediaControls,
+                        kDefaultShowMediaControls);
+  }
+
+  void setShowMediaControls(int dockId, bool value) {
+    setDockProperty(dockId, kGeneralCategory, kShowMediaControls, value);
+  }
+
   QStringList launchers(int dockId) const {
     return dockProperty(dockId, kGeneralCategory, kLaunchers, QString())
         .split(";", Qt::SkipEmptyParts);
@@ -682,6 +692,7 @@ class MultiDockModel : public QObject {
   static constexpr char kShowTaskManager[] = "showTaskManager";
   static constexpr char kShowTrash[] = "showTrash";
   static constexpr char kShowVolumeControl[] = "showVolumeControl";
+  static constexpr char kShowMediaControls[] = "showMediaControls";
   static constexpr char kLaunchers[] = "launchers";
 
   // Global appearance config's categories/properties.

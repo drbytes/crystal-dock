@@ -58,6 +58,7 @@ set(SRCS
     view/separator.cc
     view/trash.cc
     view/volume_control.cc
+    view/media_controls.cc
     view/task_manager_settings_dialog.cc
     view/wallpaper_settings_dialog.cc
     utils/desktop_file.cc
@@ -101,6 +102,7 @@ set(SRCS
     view/separator.h
     view/trash.h
     view/volume_control.h
+    view/media_controls.h
     view/task_manager_settings_dialog.h
     view/wallpaper_settings_dialog.h
     utils/command_utils.h

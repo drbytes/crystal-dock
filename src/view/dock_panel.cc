@@ -55,6 +55,7 @@
 #include "separator.h"
 #include "trash.h"
 #include "volume_control.h"
+#include "media_controls.h"
 #include <display/window_system.h>
 #include <utils/draw_utils.h>
 #include <utils/icon_utils.h>
@@ -889,6 +890,7 @@ void DockPanel::initUi() {
   initTasks();
   initTrash();
   initVolumeControl();
+  initMediaControls();
   initClock();
   initLayoutVars();
   updateLayout();
@@ -979,6 +981,10 @@ void DockPanel::createMenu() {
   volumeControlAction_ = extraComponents->addAction(QString("Volume Control"), this,
       SLOT(toggleVolumeControl()));
   volumeControlAction_->setCheckable(true);
+
+  mediaControlsAction_ = extraComponents->addAction(QString("Media Controls"), this,
+      SLOT(toggleMediaControls()));
+  mediaControlsAction_->setCheckable(true);
 
   QMenu* position = menu_.addMenu(QString("&Position"));
   positionTop_ = position->addAction(QString("&Top"), this,
@@ -1084,6 +1090,9 @@ void DockPanel::loadDockConfig() {
 
   showVolumeControl_ = model_->showVolumeControl(dockId_);
   volumeControlAction_->setChecked(showVolumeControl_);
+
+  showMediaControls_ = model_->showMediaControls(dockId_);
+  mediaControlsAction_->setChecked(showMediaControls_);
 }
 
 void DockPanel::saveDockConfig() {
@@ -1096,6 +1105,7 @@ void DockPanel::saveDockConfig() {
   model_->setShowClock(dockId_, showClock_);
   model_->setShowTrash(dockId_, showTrash_);
   model_->setShowVolumeControl(dockId_, showVolumeControl_);
+  model_->setShowMediaControls(dockId_, showMediaControls_);
   model_->saveDockConfig(dockId_);
 }
 
@@ -1164,6 +1174,7 @@ void DockPanel::reloadTasks() {
   initTasks();
   initTrash();
   initVolumeControl();
+  initMediaControls();
   initClock();
   resizeTaskManager();
 }
@@ -1296,6 +1307,13 @@ void DockPanel::initTrash() {
 void DockPanel::initVolumeControl() {
   if (showVolumeControl_) {
     items_.push_back(std::make_unique<VolumeControl>(
+        this, model_, orientation_, minSize_, maxSize_));
+  }
+}
+
+void DockPanel::initMediaControls() {
+  if (showMediaControls_) {
+    items_.push_back(std::make_unique<MediaControls>(
         this, model_, orientation_, minSize_, maxSize_));
   }
 }

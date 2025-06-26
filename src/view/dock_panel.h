@@ -54,6 +54,7 @@ namespace crystaldock {
 
 class MultiDockView;
 class VolumeControl;
+class MediaControls;
 
 // A dock panel. The user can have multiple dock panels at the same time.
 class DockPanel : public QWidget {
@@ -198,6 +199,12 @@ class DockPanel : public QWidget {
     saveDockConfig();
   }
 
+  void toggleMediaControls() {
+    showMediaControls_ = !showMediaControls_;
+    reload();
+    saveDockConfig();
+  }
+
   // Sets the dock on a specific screen given screen index.
   // Thus 0 is screen 1 and so on.
   // This doesn't refresh the dock.
@@ -291,6 +298,10 @@ class DockPanel : public QWidget {
     return showVolumeControl_ ? 1 : 0;
   }
 
+  int mediaControlsItemCount() const {
+    return showMediaControls_ ? 1 : 0;
+  }
+
   bool showTaskManager() { return model_->showTaskManager(dockId_); }
 
   void initUi();
@@ -319,6 +330,8 @@ class DockPanel : public QWidget {
   void initTrash();
 
   void initVolumeControl();
+
+  void initMediaControls();
 
   void initLayoutVars();
 
@@ -381,6 +394,7 @@ class DockPanel : public QWidget {
   bool showClock_;
   bool showTrash_;
   bool showVolumeControl_;
+  bool showMediaControls_;
   int minSize_;
   int maxSize_;
   float spacingFactor_;  // item spacing as ratio of minSize, in (0, 1) range.
@@ -437,6 +451,7 @@ class DockPanel : public QWidget {
   QAction* clockAction_;
   QAction* trashAction_;
   QAction* volumeControlAction_;
+  QAction* mediaControlsAction_;
   QAction* floatingStyleAction_;
   QAction* glass3DStyleAction_;
   QAction* glass2DStyleAction_;
